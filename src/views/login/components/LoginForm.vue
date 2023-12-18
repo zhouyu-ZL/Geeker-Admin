@@ -70,6 +70,7 @@ const login = (formEl: FormInstance | undefined) => {
     try {
       // 1.执行登录接口
       const { data } = await loginApi({ ...loginForm });
+      console.log(data);
 
       userStore.setToken(data.access_token); //存储token
 

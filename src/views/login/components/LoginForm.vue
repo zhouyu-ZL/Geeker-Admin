@@ -57,8 +57,8 @@ const loginRules = reactive({
 
 const loading = ref(false);
 const loginForm = reactive<Login.ReqLoginForm>({
-  username: "",
-  password: ""
+  username: "admin",
+  password: "123456"
 });
 
 // login
@@ -69,14 +69,16 @@ const login = (formEl: FormInstance | undefined) => {
     loading.value = true;
     try {
       // 1.执行登录接口
-      const { data } = await loginApi({ ...loginForm, password: md5(loginForm.password) });
-      userStore.setToken(data.access_token);
+      const { data } = await loginApi({ ...loginForm });
+
+      userStore.setToken(data.access_token); //存储token
 
       // 2.添加动态路由
       await initDynamicRouter();
 
       // 3.清空 tabs、keepAlive 数据
       tabsStore.setTabs([]);
+
       keepAliveStore.setKeepAliveName([]);
 
       // 4.跳转到首页

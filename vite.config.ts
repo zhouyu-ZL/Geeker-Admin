@@ -43,7 +43,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       open: viteEnv.VITE_OPEN,
       cors: true,
       // Load proxy configuration from .env.development
-      proxy: createProxy(viteEnv.VITE_PROXY)
+      // proxy: createProxy(viteEnv.VITE_PROXY)
+      proxy: {
+        "/dev-api": {
+          target: "http://vapi.youlai.tech",
+          changeOrigin: true,
+          rewrite: (servePath) => servePath.replace(/^\/dev-api/, '')
+        }
+      }
     },
     plugins: createVitePlugins(viteEnv),
     esbuild: {
